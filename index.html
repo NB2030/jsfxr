@@ -1,164 +1,166 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 <head>
-    <title>jsfxr - صانع ومولد الأصوات 8-bit</title>
-    <meta name="description" content="صانع ومولد أصوات 8-bit بسيط ومباشر. يمكنك استخدامه كمكتبة صوتية في ألعاب JavaScript الخاصة بك.">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jsfxr - 8 bit sound maker and online sfx generator</title>
+<meta name="description" content="A simple online 8 bit sound maker and sfx generator. You can also use it as a sound library in your JavaScript games.">
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="jquery/jquery-ui.css">
-    <link rel="stylesheet" href="style.css">
+<link type="text/css" href="jquery/jquery-ui.css" rel="Stylesheet" />
+<link type="text/css" href="style.css" rel="Stylesheet" />
 
-    <script src="riffwave.js"></script>
-    <script src="sfxr.js"></script>
-    <script src="jquery/jquery.min.js"></script>
-    <script src="jquery/jquery-ui.min.js"></script>
-    <script src="app.js"></script>
+<script src="riffwave.js"></script>
+<script src="sfxr.js"></script>
+<script type="text/javascript" src="jquery/jquery.min.js"></script>
+<script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
+<script src="app.js"></script>
+
 </head>
-<body dir="rtl">
 
-    <div class="main-container">
-        <header>
-            <h1>jsfxr</h1>
-            <p>مولد مؤثرات صوتية 8-bit</p>
-        </header>
+<body>
 
-        <div class="content-wrapper">
-            <aside class="left-column">
-                <div class="panel">
-                    <h2>مولدات</h2>
-                    <div id="generators">
-                        <button onclick="gen('pickupCoin')">التقاط/عملة</button>
-                        <button onclick="gen('laserShoot')">ليزر/إطلاق نار</button>
-                        <button onclick="gen('explosion')">انفجار</button>
-                        <button onclick="gen('powerUp')">زيادة القوة</button>
-                        <button onclick="gen('hitHurt')">ضربة/أذى</button>
-                        <button onclick="gen('jump')">قفز</button>
-                        <button onclick="gen('click')">نقر</button>
-                        <button onclick="gen('blipSelect')">اختيار</button>
-                        <button onclick="gen('synth')">مركب</button>
-                        <button onclick="gen('tone')">نغمة</button>
+<div class="main-container">
+    <header>
+        <h1>jsfxr</h1>
+        <p>8-bit sound effects generator</p>
+    </header>
+
+    <div class="content-wrapper">
+        <aside class="left-column">
+            <div class="panel">
+                <h2>Generators</h2>
+                <div id="generators">
+                    <button onclick="gen('pickupCoin')">Pickup/Coin</button>
+                    <button onclick="gen('laserShoot')">Laser/Shoot</button>
+                    <button onclick="gen('explosion')">Explosion</button>
+                    <button onclick="gen('powerUp')">Powerup</button>
+                    <button onclick="gen('hitHurt')">Hit/Hurt</button>
+                    <button onclick="gen('jump')">Jump</button>
+                    <button onclick="gen('click')">Click</button>
+                    <button onclick="gen('blipSelect')">Blip/Select</button>
+                    <button onclick="gen('synth')">Synth</button>
+                    <button onclick="gen('tone')">Tone</button>
+                </div>
+                <div class="random-mutate-section">
+                    <button onclick="gen('random')">Random</button>
+                    <button onclick="mut()">Mutate</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="center-column">
+            <div class="panel">
+                <h2>Manual Settings</h2>
+                <form>
+                    <div id="shape" class="radio-group wave-type-group">
+                        <input type="radio" id="square" value="0" name="shape" /><label for="square">Square</label>
+                        <input type="radio" id="sawtooth" value="1" name="shape" checked="checked" /><label for="sawtooth">Sawtooth</label>
+                        <input type="radio" id="sine" value="2" name="shape" /><label for="sine">Sine</label>
+                        <input type="radio" id="noise" value="3" name="shape" /><label for="noise">Noise</label>
                     </div>
-                    <div class="random-mutate-section">
-                        <button onclick="gen('random')">عشوائي</button>
-                        <button onclick="mut()">تغيير</button>
+                </form>
+                <div class="sliders-wrapper">
+                    <div class="slider-group">
+                        <h3>Envelope</h3>
+                        <div class="slider-container"><label for="p_env_attack">Attack Time <span class="slider-value"></span></label><div class="slider" id="p_env_attack"></div></div>
+                        <div class="slider-container"><label for="p_env_sustain">Sustain Time <span class="slider-value"></span></label><div class="slider" id="p_env_sustain"></div></div>
+                        <div class="slider-container"><label for="p_env_punch">Sustain Punch <span class="slider-value"></span></label><div class="slider" id="p_env_punch"></div></div>
+                        <div class="slider-container"><label for="p_env_decay">Decay Time <span class="slider-value"></span></label><div class="slider" id="p_env_decay"></div></div>
+                    </div>
+                    <div class="slider-group">
+                        <h3>Frequency</h3>
+                        <div class="slider-container"><label for="p_base_freq">Start Frequency <span class="slider-value"></span></label><div class="slider" id="p_base_freq"></div></div>
+                        <div class="slider-container"><label for="p_freq_limit">Min Freq. Cutoff <span class="slider-value"></span></label><div class="slider" id="p_freq_limit"></div></div>
+                        <div class="slider-container"><label for="p_freq_ramp">Slide <span class="slider-value"></span></label><div class="signed slider" id="p_freq_ramp"></div></div>
+                        <div class="slider-container"><label for="p_freq_dramp">Delta Slide <span class="slider-value"></span></label><div class="signed slider" id="p_freq_dramp"></div></div>
+                    </div>
+                    <div class="slider-group">
+                        <h3>Vibrato</h3>
+                        <div class="slider-container"><label for="p_vib_strength">Depth <span class="slider-value"></span></label><div class="slider" id="p_vib_strength"></div></div>
+                        <div class="slider-container"><label for="p_vib_speed">Speed <span class="slider-value"></span></label><div class="slider" id="p_vib_speed"></div></div>
+                        <h3>Arpeggiation</h3>
+                        <div class="slider-container"><label for="p_arp_mod">Freq. Mult <span class="slider-value"></span></label><div class="signed slider" id="p_arp_mod"></div></div>
+                        <div class="slider-container"><label for="p_arp_speed">Change Speed <span class="slider-value"></span></label><div class="slider" id="p_arp_speed"></div></div>
+                    </div>
+                    <div class="slider-group">
+                        <h3>Duty Cycle</h3>
+                        <div class="slider-container"><label for="p_duty">Duty Cycle <span class="slider-value"></span></label><div class="slider" id="p_duty"></div></div>
+                        <div class="slider-container"><label for="p_duty_ramp">Sweep <span class="slider-value"></span></label><div class="signed slider" id="p_duty_ramp"></div></div>
+                         <h3>Retrigger</h3>
+                        <div class="slider-container"><label for="p_repeat_speed">Rate <span class="slider-value"></span></label><div class="slider" id="p_repeat_speed"></div></div>
+                    </div>
+                    <div class="slider-group">
+                         <h3>Flanger</h3>
+                        <div class="slider-container"><label for="p_pha_offset">Offset <span class="slider-value"></span></label><div class="signed slider" id="p_pha_offset"></div></div>
+                        <div class="slider-container"><label for="p_pha_ramp">Sweep <span class="slider-value"></span></label><div class="signed slider" id="p_pha_ramp"></div></div>
+                    </div>
+                    <div class="slider-group">
+                        <h3>Low-Pass Filter</h3>
+                        <div class="slider-container"><label for="p_lpf_freq">Cutoff Freq. <span class="slider-value"></span></label><div class="slider" id="p_lpf_freq"></div></div>
+                        <div class="slider-container"><label for="p_lpf_ramp">Cutoff Sweep <span class="slider-value"></span></label><div class="signed slider" id="p_lpf_ramp"></div></div>
+                        <div class="slider-container"><label for="p_lpf_resonance">Resonance <span class="slider-value"></span></label><div class="slider" id="p_lpf_resonance"></div></div>
+                    </div>
+                     <div class="slider-group">
+                        <h3>High-Pass Filter</h3>
+                        <div class="slider-container"><label for="p_hpf_freq">Cutoff Freq. <span class="slider-value"></span></label><div class="slider" id="p_hpf_freq"></div></div>
+                        <div class="slider-container"><label for="p_hpf_ramp">Cutoff Sweep <span class="slider-value"></span></label><div class="signed slider" id="p_hpf_ramp"></div></div>
                     </div>
                 </div>
-            </aside>
+            </div>
+        </main>
 
-            <main class="center-column">
-                <div class="panel">
-                    <h2>الإعدادات اليدوية</h2>
+        <aside class="right-column">
+            <div class="panel">
+                <h2>Output</h2>
+                <button onclick="play(true)" class="play-btn">Play Sound</button>
+                <div class="slider-container gain-slider"><label for="sound_vol">Gain <span class="slider-value"></span></label><div class="slider" id="sound_vol"></div></div>
+                <div class="sound-options">
                     <form>
-                        <div id="shape" class="radio-group wave-type-group">
-                            <input type="radio" id="square" value="0" name="shape" /><label for="square">مربع</label>
-                            <input type="radio" id="sawtooth" value="1" name="shape" checked="checked" /><label for="sawtooth">سن المنشار</label>
-                            <input type="radio" id="sine" value="2" name="shape" /><label for="sine">جيبي</label>
-                            <input type="radio" id="noise" value="3" name="shape" /><label for="noise">ضوضاء</label>
+                        <h3>Sample Rate</h3>
+                        <div id="hz" class="radio-group">
+                            <input type="radio" id="44100" value="44100" name="hz" checked="checked" /><label for="44100">44k</label>
+                            <input type="radio" id="22050" value="22050" name="hz" /><label for="22050">22k</label>
+                            <input type="radio" id="11025" value="11025" name="hz" /><label for="11025">11k</label>
+                            <input type="radio" id="5512" value="5512" name="hz" /><label for="5512">6k</label>
+                        </div>
+                        <h3>Sample Size</h3>
+                        <div id="bits" class="radio-group">
+                            <input type="radio" id="16" value="16" name="bits" /><label for="16">16 bit</label>
+                            <input type="radio" id="8" value="8" name="bits" checked="checked" /><label for="8">8 bit</label>
                         </div>
                     </form>
-                    <div class="sliders-wrapper">
-                        <div class="slider-group">
-                            <h3>المغلف</h3>
-                            <div class="slider-container"><label for="p_env_attack">زمن الهجوم <span class="slider-value"></span></label><div class="slider" id="p_env_attack"></div></div>
-                            <div class="slider-container"><label for="p_env_sustain">زمن الاستدامة <span class="slider-value"></span></label><div class="slider" id="p_env_sustain"></div></div>
-                            <div class="slider-container"><label for="p_env_punch">قوة الاستدامة <span class="slider-value"></span></label><div class="slider" id="p_env_punch"></div></div>
-                            <div class="slider-container"><label for="p_env_decay">زمن التلاشي <span class="slider-value"></span></label><div class="slider" id="p_env_decay"></div></div>
-                        </div>
-                        <div class="slider-group">
-                            <h3>التردد</h3>
-                            <div class="slider-container"><label for="p_base_freq">تردد البداية <span class="slider-value"></span></label><div class="slider" id="p_base_freq"></div></div>
-                            <div class="slider-container"><label for="p_freq_limit">أدنى تردد <span class="slider-value"></span></label><div class="slider" id="p_freq_limit"></div></div>
-                            <div class="slider-container"><label for="p_freq_ramp">الانزلاق <span class="slider-value"></span></label><div class="signed slider" id="p_freq_ramp"></div></div>
-                            <div class="slider-container"><label for="p_freq_dramp">تغير الانزلاق <span class="slider-value"></span></label><div class="signed slider" id="p_freq_dramp"></div></div>
-                        </div>
-                        <div class="slider-group">
-                            <h3>الاهتزاز</h3>
-                            <div class="slider-container"><label for="p_vib_strength">العمق <span class="slider-value"></span></label><div class="slider" id="p_vib_strength"></div></div>
-                            <div class="slider-container"><label for="p_vib_speed">السرعة <span class="slider-value"></span></label><div class="slider" id="p_vib_speed"></div></div>
-                            <h3>Arpeggiation</h3>
-                            <div class="slider-container"><label for="p_arp_mod">مضاعف التردد <span class="slider-value"></span></label><div class="signed slider" id="p_arp_mod"></div></div>
-                            <div class="slider-container"><label for="p_arp_speed">سرعة التغيير <span class="slider-value"></span></label><div class="slider" id="p_arp_speed"></div></div>
-                        </div>
-                        <div class="slider-group">
-                            <h3>Duty Cycle</h3>
-                            <div class="slider-container"><label for="p_duty">Duty Cycle <span class="slider-value"></span></label><div class="slider" id="p_duty"></div></div>
-                            <div class="slider-container"><label for="p_duty_ramp">المسح <span class="slider-value"></span></label><div class="signed slider" id="p_duty_ramp"></div></div>
-                             <h3>إعادة التشغيل</h3>
-                            <div class="slider-container"><label for="p_repeat_speed">المعدل <span class="slider-value"></span></label><div class="slider" id="p_repeat_speed"></div></div>
-                        </div>
-                        <div class="slider-group">
-                             <h3>Flanger</h3>
-                            <div class="slider-container"><label for="p_pha_offset">الإزاحة <span class="slider-value"></span></label><div class="signed slider" id="p_pha_offset"></div></div>
-                            <div class="slider-container"><label for="p_pha_ramp">المسح <span class="slider-value"></span></label><div class="signed slider" id="p_pha_ramp"></div></div>
-                        </div>
-                        <div class="slider-group">
-                            <h3>مرشح الترددات المنخفضة</h3>
-                            <div class="slider-container"><label for="p_lpf_freq">تردد القطع <span class="slider-value"></span></label><div class="slider" id="p_lpf_freq"></div></div>
-                            <div class="slider-container"><label for="p_lpf_ramp">مسح القطع <span class="slider-value"></span></label><div class="signed slider" id="p_lpf_ramp"></div></div>
-                            <div class="slider-container"><label for="p_lpf_resonance">الرنين <span class="slider-value"></span></label><div class="slider" id="p_lpf_resonance"></div></div>
-                        </div>
-                         <div class="slider-group">
-                            <h3>مرشح الترددات العالية</h3>
-                            <div class="slider-container"><label for="p_hpf_freq">تردد القطع <span class="slider-value"></span></label><div class="slider" id="p_hpf_freq"></div></div>
-                            <div class="slider-container"><label for="p_hpf_ramp">مسح القطع <span class="slider-value"></span></label><div class="signed slider" id="p_hpf_ramp"></div></div>
-                        </div>
-                    </div>
                 </div>
-            </main>
-
-            <aside class="right-column">
-                <div class="panel">
-                    <h2>الإخراج</h2>
-                    <button onclick="play(true)" class="play-btn">تشغيل الصوت</button>
-                    <div class="slider-container gain-slider"><label for="sound_vol">الكسب</label><div class="slider" id="sound_vol"></div><span class="slider-value"></span></div>
-                    <div class="sound-options">
-                        <form>
-                            <h3>معدل العينة</h3>
-                            <div id="hz" class="radio-group">
-                                <input type="radio" id="44100" value="44100" name="hz" checked="checked" /><label for="44100">44k</label>
-                                <input type="radio" id="22050" value="22050" name="hz" /><label for="22050">22k</label>
-                                <input type="radio" id="11025" value="11025" name="hz" /><label for="11025">11k</label>
-                                <input type="radio" id="5512" value="5512" name="hz" /><label for="5512">6k</label>
-                            </div>
-                            <h3>حجم العينة</h3>
-                            <div id="bits" class="radio-group">
-                                <input type="radio" id="16" value="16" name="bits" /><label for="16">16 بت</label>
-                                <input type="radio" id="8" value="8" name="bits" checked="checked" /><label for="8">8 بت</label>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="export">
-                        <h3>تصدير</h3>
-                        <a id="wav" class="export-link">sound.wav</a>
-                        <a id="json" class="export-link">sound.json</a>
-                    </div>
-                    <div class="share-section">
-                        <h3>مشاركة</h3>
-                        <a id="share">🔗 رابط دائم</a>
-                        <button onclick="copy()">نسخ الكود</button>
-                        <input id="copybuffer"/>
-                    </div>
+                <div id="export">
+                    <h3>Export</h3>
+                    <a id="wav" class="export-link">sound.wav</a>
+                    <a id="json" class="export-link">sound.json</a>
                 </div>
-            </aside>
-        </div>
-
-        <div id="data" class="panel">
-            <button onclick="serialize_params();">▼ Serialize</button>
-            <button onclick="deserialize_params()">▲ Deserialize</button>
-            <button onclick="upload_params_from_file()">⇧ فتح</button>
-            <input type="file" id="open_save_impl" accept="application/JSON" onchange="on_upload_file_selected.apply(this, arguments)" />
-            <div id="serialize">
-                <textarea></textarea>
-                <button onclick="$('textarea').select(); document.execCommand('copy');">نسخ</button>
-                <button onclick="$('#serialize').hide();">إخفاء ✕</button>
+                <div class="share-section">
+                    <h3>Share</h3>
+                    <a id="share">🔗 Permalink</a>
+                    <button onclick="copy()">Copy Code</button>
+                    <input id="copybuffer"/>
+                </div>
             </div>
-        </div>
-
-        <footer>
-            <p>Jsfxr هو منفذ JavaScript من <a href="http://www.drpetter.se/project_sfxr.html">sfxr</a> الأصلي بواسطة DrPetter. يمكنك أيضًا استخدامه <a href='https://github.com/chr15m/jsfxr#use'>كمكتبة JavaScript</a> في ألعابك.</p>
-            <p>المنفذ بواسطة Eric Fredricksen | الصيانة بواسطة Chris McCormick | <a href="https://github.com/chr15m/jsfxr" id="source">الكود المصدري</a></p>
-        </footer>
+        </aside>
     </div>
+
+    <div id="data" class="panel">
+        <button onclick="serialize_params();">▼ Serialize</button>
+        <button onclick="deserialize_params()">▲ Deserialize</button>
+        <button onclick="upload_params_from_file()">⇧ Open</button>
+        <input type="file" id="open_save_impl" accept="application/JSON" onchange="on_upload_file_selected.apply(this, arguments)" />
+        <div id="serialize">
+            <textarea></textarea>
+            <button onclick="$('textarea').select(); document.execCommand('copy');">Copy</button>
+            <button onclick="$('#serialize').hide();">Hide ✕</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Jsfxr is a JavaScript port of the original <a href="http://www.drpetter.se/project_sfxr.html">sfxr</a> by DrPetter. You can also use it as a <a href='https://github.com/chr15m/jsfxr#use'>JavaScript library</a> in your games.</p>
+        <p>Port by Eric Fredricksen | Maintained by Chris McCormick | <a href="https://github.com/chr15m/jsfxr" id="source">Source Code</a></p>
+    </footer>
+</div>
 </body>
 </html>
